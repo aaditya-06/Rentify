@@ -1,0 +1,38 @@
+<% layout('/Layouts/Boilerplate') %>
+<body>
+  <h2 class="display-5 text-center my-1">Stays</h2>
+  <hr/>
+
+  <div class="container mb-5">
+    <div class="row">
+      <% for(let listing of allListings) { %>
+      <div class="col-md-4 mb-4 d-flex">
+        <a
+          href="/listings/<%= listing._id %>"
+          class="text-decoration-none w-100"
+        >
+          <div
+            class="card h-100 shadow-sm d-flex flex-column"
+            style="min-height: 600px"
+          >
+            <img
+              src="<%= listing.image %>"
+              class="card-img-top img-fluid"
+              alt="Listing Image"
+              style="height: 450px; object-fit: cover"
+            />
+            <div class="card-body flex-grow-1 d-flex flex-column">
+              <div class="text-muted fw-bold"><%= listing.title %></div>
+              <p class="card-text fw-light line-clamp-3"><%= listing.description %></p>
+              <div class="mt-auto text-muted fw-bold">
+                 &#8377;<%= listing.price.toLocaleString("en-IN") %>
+                /night
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</body>

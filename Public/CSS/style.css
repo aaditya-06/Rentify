@@ -1,0 +1,11 @@
+body {
+  background-color: #252525;
+}
+
+.card-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limits to 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
