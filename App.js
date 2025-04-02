@@ -45,14 +45,22 @@ app.get("/listings/new", async (req, res) => {
 });
 
 // Create Route - Create a new listing
-app.post("/listings", async (req, res) => {
+app.post("/listings", async (req, res, next) => {
   // let { title, description, price, location, country, image } = req.body;
   // let listing = req.body.listing;
   // console.log("listing");
 
-  const newListing = new Listing(req.body.listing);
-  await newListing.save();
-  res.redirect("/");
+  // const newListing = new Listing(req.body.listing);
+  // await newListing.save();
+  // res.redirect("/");
+
+  try {
+    const newListing = new Listing(req.body.listing);
+    await newListing.save();
+    res.redirect("/");
+  } catch (err) {
+    next(err);
+  }
 });
 
 // Edit Route - Show the form to edit a specific listing by ID
@@ -94,5 +102,11 @@ app.get("/listings/:id", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+
+//err middleware
+app.use((err, req, res, next) => {
+  res.send("Something went wrong!");
+})
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));
