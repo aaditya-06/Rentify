@@ -1,39 +1,50 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-lg sticky-top border-bottom border-white">
   <div class="container">
     <!-- Logo / Brand -->
-    <a class="navbar-brand fs-2 fw-bold text-white d-flex align-items-center" href="/">
-      <i class="fa-solid fa-route me-2"></i> Rentify
+    <a class="navbar-brand fs-2 fw-light text-white d-flex align-items-center" href="/">
+      <i class="fa-brands fa-pied-piper-alt fs-1 me-2"></i> Rentify
     </a>
 
     <!-- Mobile Toggle Button -->
-    <button 
-      class="navbar-toggler border-0" 
-      type="button" 
-      data-bs-toggle="collapse" 
-      data-bs-target="#navbarNav" 
-      aria-controls="navbarNav" 
-      aria-expanded="false" 
-      aria-label="Toggle navigation"
-    >
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- Navbar Links -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
+        <% if (!currentUser) { %>
+        <!-- If user is NOT logged in, show Login & Signup -->
         <li class="nav-item">
-          <a class="nav-link text-white px-3 py-2 rounded hover-effect" href="/listings/new">
-            <i class="fa-solid fa-plus"></i> Add Listing
-          </a>
+          <a class="nav-link hover-effect" href="/login">Login</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link hover-effect" href="/signup">Signup</a>
+        </li>
+        <% } else { %>
+        <!-- If user IS logged in, show Add Listing & Logout -->
+        <li class="nav-item">
+          <a class="nav-link hover-effect" href="/listings/new">Add Listing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link hover-effect" href="/logout">Logout</a>
+        </li>
+        <% } %>
       </ul>
     </div>
   </div>
 </nav>
 
+<!-- Navbar Styling -->
 <style>
+  .hover-effect {
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+  }
+
   .hover-effect:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transition: 0.3s;
+    background-color: rgba(255, 255, 255, 0.1);
   }
 </style>

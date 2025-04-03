@@ -28,7 +28,9 @@ router.post(
   wrapAsync(async (req, res, next) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
-    res.redirect("/");
+
+    req.flash("success", "Listing created");
+    res.redirect(`/`);
   })
 );
 
@@ -41,8 +43,8 @@ router.get(
     const listing = await Listing.findById(id).populate("reviews");
 
     if (!listing) {
-      console.log("Listing not found!");
-      return res.status(404).send("Listing not found");
+      req.flash("error", "Listing not found");
+      res.redirect("/");
     }
 
     // Format price for display
@@ -58,6 +60,11 @@ router.get(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
+    if (!listing) {
+      req.flash("error", "Listing not found");
+      res.redirect("/");
+    }
+
     res.render("listings/edit", { listing });
   })
 );
@@ -69,6 +76,9 @@ router.put(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+
+    req.flash("success", "Review updated successfully!");
+    console.log("Flash Messages (After Update):", req.session.flash);
     res.redirect(`/listings/${id}`);
   })
 );
@@ -79,6 +89,9 @@ router.delete(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     await Listing.findByIdAndDelete(id);
+
+    req.flash("success", "Listing deleted");
+    console.log("Flash Messages (After Delete):", req.session.flash);
     res.redirect("/");
   })
 );

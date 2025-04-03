@@ -26,7 +26,9 @@
           <div>
             <h5 class="mb-0">
               Price:
-              <span class="text-success">&#8377;<%= priceFormatted %></span>
+              <span class="text-secondary"
+                >&#8377;<%= priceFormatted %>/night</span
+              >
             </h5>
             <small class="text-secondary">
               Location: <%= listing.location %>, <%= listing.country %>
@@ -48,11 +50,11 @@
               >
                 <div class="d-flex align-items-center">
                   <img
-                    src="https://static.vecteezy.com/system/resources/previews/028/597/534/original/young-cartoon-female-avatar-student-character-wearing-eyeglasses-file-no-background-ai-generated-png.png"
+                    src="https://imgs.search.brave.com/fT16NSvuOH4aRqwkE09ZvXoU3X2M_TUU7bFYEtc5qNY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/Y3JlYXRlLnZpc3Rh/LmNvbS9hcGkvbWVk/aWEvc21hbGwvMTc1/OTY1Mjcvc3RvY2st/cGhvdG8tYmxhY2st/dGV4dHVyZQ"
                     alt="Profile Image"
                     class="rounded-circle me-2"
-                    width="40"
-                    height="40"
+                    width="30"
+                    height="30"
                   />
                   <strong>Jon Def</strong>
                 </div>
@@ -84,7 +86,7 @@
 
     <!-- Review Form -->
     <div class="container mt-5 mb-5">
-      <div class="border p-4 rounded">
+      <div class="border p-4 rounded shadow-sm">
         <h4 class="fw-bold mb-3">Add a Review</h4>
 
         <form
@@ -93,20 +95,55 @@
           class="needs-validation"
           novalidate
         >
-          <!-- Rating Input -->
+          <!-- Star Rating Input -->
           <div class="mb-3">
-            <label for="rating" class="form-label fw-semibold">Rating</label>
-            <input
-              type="range"
-              class="form-range"
-              min="0"
-              max="5"
-              step="1"
-              id="rating"
-              name="review[rating]"
-              style="accent-color: #007bff"
-              required
-            />
+            <label class="form-label fw-semibold">Rating</label>
+            <div class="rating">
+              <input
+                type="radio"
+                id="star5"
+                name="review[rating]"
+                value="5"
+                required
+              />
+              <label for="star5" title="5 stars">&#9733;</label>
+
+              <input
+                type="radio"
+                id="star4"
+                name="review[rating]"
+                value="4"
+                required
+              />
+              <label for="star4" title="4 stars">&#9733;</label>
+
+              <input
+                type="radio"
+                id="star3"
+                name="review[rating]"
+                value="3"
+                required
+              />
+              <label for="star3" title="3 stars">&#9733;</label>
+
+              <input
+                type="radio"
+                id="star2"
+                name="review[rating]"
+                value="2"
+                required
+              />
+              <label for="star2" title="2 stars">&#9733;</label>
+
+              <input
+                type="radio"
+                id="star1"
+                name="review[rating]"
+                value="1"
+                required
+              />
+              <label for="star1" title="1 star">&#9733;</label>
+            </div>
           </div>
 
           <!-- Comment Input -->
