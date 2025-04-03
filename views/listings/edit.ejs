@@ -8,6 +8,7 @@
         method="POST"
         action="/listings/<%= listing._id %>?_method=PUT"
         novalidate
+        class="needs-validation"
       >
         <div class="mb-3">
           <label for="title" class="form-label fw-bold">Title:</label>
@@ -19,6 +20,7 @@
             value="<%= listing.title %>"
             required
           />
+          <div class="valid-feedback">Looks good!</div>
         </div>
 
         <div class="mb-3">
@@ -34,6 +36,7 @@
           >
 <%= listing.description %></textarea
           >
+          <div class="valid-feedback">Looks good!</div>
         </div>
 
         <div class="mb-3">
@@ -47,6 +50,7 @@
             placeholder="Image URL"
             required
           />
+          <div class="valid-feedback">Looks good!</div>
         </div>
 
         <div class="row">
@@ -65,6 +69,7 @@
               placeholder="Enter price in rupees"
               required
             />
+            <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="col-md-6 mb-3">
             <label for="location" class="form-label fw-bold">Location:</label>
@@ -74,6 +79,17 @@
               name="listing[location]"
               class="form-control"
               value="<%= listing.location %>"
+              required
+            />
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="country" class="form-label fw-bold">Country:</label>
+            <input
+              id="country"
+              name="listing[country]"
+              class="form-select"
               required
             />
           </div>
@@ -88,5 +104,4 @@
     </div>
   </div>
 
-  <script src="/JavaScript/script.js"></script>
 </body>

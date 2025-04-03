@@ -1,14 +1,142 @@
 <% layout('/Layouts/Boilerplate') %>
 <body>
-  <div class="container mt-5 mb-5">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <a href="/" class="btn btn-outline-secondary">
-        <i class="fa-solid fa-arrow-left"></i> Back to Listings
+  <div class="container mt-4">
+    <!-- Navigation -->
+    <div class="d-flex justify-content-start align-items-center mb-4">
+      <a
+        href="/"
+        class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center"
+      >
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Listings
       </a>
+    </div>
 
+    <!-- Listing Card -->
+    <div class="card border-0 rounded overflow-hidden mb-4">
+      <img
+        src="<%= listing.image %>"
+        class="card-img-top"
+        alt="Listing Image"
+        style="height: 500px; object-fit: cover; border-radius: 20px"
+      />
+      <div class="card-body p-4">
+        <h3 class="card-title fw-bold mb-3"><%= listing.title %></h3>
+        <p class="card-text text-muted mb-4"><%= listing.description %></p>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="mb-0">
+              Price:
+              <span class="text-success">&#8377;<%= priceFormatted %></span>
+            </h5>
+            <small class="text-secondary">
+              Location: <%= listing.location %>, <%= listing.country %>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-4">
+      <h4 class="mb-3">Reviews</h4>
+      <div class="row">
+        <% listing.reviews.forEach(review => { %>
+        <div class="col-md-6 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <div class="d-flex align-items-center">
+                  <img
+                    src="https://static.vecteezy.com/system/resources/previews/028/597/534/original/young-cartoon-female-avatar-student-character-wearing-eyeglasses-file-no-background-ai-generated-png.png"
+                    alt="Profile Image"
+                    class="rounded-circle me-2"
+                    width="40"
+                    height="40"
+                  />
+                  <strong>Jon Def</strong>
+                </div>
+                <small class="text-muted">
+                  <% for(let i = 1; i <= 5; i++) { %>
+                  <i
+                    class="fa-solid fa-star <%= i <= review.rating ? 'text-warning' : 'text-secondary' %>"
+                  ></i>
+                  <% } %>
+                </small>
+
+                <!-- Delete Button -->
+                <form
+                  method="POST"
+                  action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                >
+                  <button class="btn btn-secondary btn-sm">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                </form>
+              </div>
+              <p class="card-text"><%= review.comment %></p>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+
+    <!-- Review Form -->
+    <div class="container mt-5 mb-5">
+      <div class="border p-4 rounded">
+        <h4 class="fw-bold mb-3">Add a Review</h4>
+
+        <form
+          action="/listings/<%= listing._id %>/reviews"
+          method="POST"
+          class="needs-validation"
+          novalidate
+        >
+          <!-- Rating Input -->
+          <div class="mb-3">
+            <label for="rating" class="form-label fw-semibold">Rating</label>
+            <input
+              type="range"
+              class="form-range"
+              min="0"
+              max="5"
+              step="1"
+              id="rating"
+              name="review[rating]"
+              style="accent-color: #007bff"
+              required
+            />
+          </div>
+
+          <!-- Comment Input -->
+          <div class="mb-3">
+            <label for="comment" class="form-label fw-semibold">Comment</label>
+            <textarea
+              id="comment"
+              name="review[comment]"
+              class="form-control p-2 rounded-2"
+              rows="4"
+              placeholder="Write your thoughts here..."
+              required
+            ></textarea>
+            <div class="invalid-feedback">Please enter a valid comment.</div>
+          </div>
+
+          <!-- Submit Button -->
+          <button class="btn btn-primary btn-sm">Submit Review</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-end align-items-center mb-4">
       <div class="d-flex gap-2">
-        <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary">
-          <i class="fa-solid fa-edit"></i> Edit Listing
+        <a
+          href="/listings/<%= listing._id %>/edit"
+          class="btn btn-primary btn-sm d-inline-flex align-items-center"
+        >
+          <i class="fa-solid fa-edit me-1"></i> Edit Listing
         </a>
         <form
           method="POST"
@@ -18,32 +146,6 @@
             <i class="fa-regular fa-trash-can"></i>
           </button>
         </form>
-      </div>
-    </div>
-
-    <div class="card border-0 shadow-lg rounded overflow-hidden">
-      <img
-        src="<%= listing.image %>"
-        class="card-img-top"
-        alt="Listing Image"
-        style="height: 500px; object-fit: cover"
-      />
-      <div class="card-body">
-        <h3 class="card-title fw-bold mb-3"><%= listing.title %></h3>
-        <p class="card-text text-muted mb-4"><%= listing.description %></p>
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h5 class="mb-0">
-              Price:
-              <span class="text-success"
-                >&#8377;<%= listing.price.toLocaleString("en-IN") %></span
-              >
-            </h5>
-            <small class="text-secondary">
-              Location: <%= listing.location %>, <%= listing.country %>
-            </small>
-          </div>
-        </div>
       </div>
     </div>
   </div>

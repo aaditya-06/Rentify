@@ -1,9 +1,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Listing = require("./models/listings.js");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const wrapAsync = require("./utility/wrapAsync.js");
+const ExpressError = require("./utility/expressError.js");
+const { listingSchema, reviewSchema } = require("./schema.js");
+const passport = require("passport");
+const localStrategy = require("passport-local");
+
+const Listing = require("./models/listings.js");
+const User = require("./models/user.js");
+const Review = require("./models/review.js");
+const listingRoutes = require("./routes/listingRoute.js");
 
 const app = express();
 const port = 8080;
@@ -13,14 +22,12 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(path.join(__dirname, "/Public")));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/Rentify", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect("mongodb://127.0.0.1:27017/Rentify")
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
@@ -29,84 +36,68 @@ mongoose
 // });
 
 // Index Route - Show all listings
-app.get("/", async (req, res) => {
-  try {
+app.get(
+  "/",
+  wrapAsync(async (req, res) => {
     const allListings = await Listing.find({});
     res.render("listings/index", { allListings });
-  } catch (error) {
-    console.error("Error fetching listings:", error);
-    res.status(500).send("Internal Server Error");
+  })
+);
+
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+    throw new ExpressError(error.details[0].message, 400); // Show specific error message
   }
-});
+  next();
+};
 
-// New Route - Show the form to create a new listing
-app.get("/listings/new", async (req, res) => {
-  res.render("listings/new");
-});
+//  Use listingRoutes correctly
+app.use("/listings", listingRoutes);
 
-// Create Route - Create a new listing
-app.post("/listings", async (req, res, next) => {
-  // let { title, description, price, location, country, image } = req.body;
-  // let listing = req.body.listing;
-  // console.log("listing");
-
-  // const newListing = new Listing(req.body.listing);
-  // await newListing.save();
-  // res.redirect("/");
-
-  try {
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    res.redirect("/");
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Edit Route - Show the form to edit a specific listing by ID
-app.get("/listings/:id/edit", async (req, res) => {
-  let { id } = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/edit", { listing });
-});
-
-// Update Route - Update a specific listing by ID
-app.put("/listings/:id", async (req, res) => {
-  let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-  res.redirect(`/listings/${id}`);
-});
-
-// Delete Route - Delete a specific listing by ID
-app.delete("/listings/:id", async (req, res) => {
-  let { id } = req.params;
-  await Listing.findByIdAndDelete(id);
-  res.redirect("/");
-})
-
-// Show Route - Show a specific listing by ID
-app.get("/listings/:id", async (req, res) => {
-  try {
-    let { id } = req.params;
-    console.log("Fetching listing with ID:", id); // Debugging
-    const listing = await Listing.findById(id);
-
+// Review Route - Post Review
+app.post(
+  "/listings/:id/reviews",
+  validateReview,
+  wrapAsync(async (req, res) => {
+    let listing = await Listing.findById(req.params.id);
     if (!listing) {
-      console.log("Listing not found!");
-      return res.status(404).send("Listing not found");
+      throw new ExpressError("Listing not found", 404);
     }
 
-    res.render("listings/show", { listing });
-  } catch (error) {
-    console.error("Error fetching listing:", error);
-    res.status(500).send("Internal Server Error");
-  }
+    let newReview = new Review(req.body.review);
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+
+    //  Fix incorrect redirect parameter
+    res.redirect(`/listings/${req.params.id}`);
+  })
+);
+
+// Review Delete Route
+app.delete(
+  "/listings/:id/reviews/:reviewId",
+  wrapAsync(async (req, res) => {
+    let { id, reviewId } = req.params;
+
+    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+
+    res.redirect(`/listings/${id}`);
+  })
+);
+
+app.all("*", (req, res, next) => {
+  next(new ExpressError(404, "Page not found"));
 });
 
-
-//err middleware
+// Error Handling Middleware in Express
 app.use((err, req, res, next) => {
-  res.send("Something went wrong!");
-})
+  // let { status = 505, message = "The page you're looking for doesn't exist or has been moved." } = err;
+  res.render("error.ejs", { err });
+  // res.status(status).send(message);
+});
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));

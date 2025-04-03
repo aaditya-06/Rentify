@@ -1,7 +1,7 @@
-<% layout('/Layouts/Boilerplate') %>
+<% layout('Layouts/Boilerplate') %>
 <body>
   <h2 class="display-5 text-center my-1">Stays</h2>
-  <hr/>
+  <hr />
 
   <div class="container mb-5">
     <div class="row">
@@ -16,18 +16,23 @@
             style="min-height: 600px"
           >
             <img
-              src="<%= listing.image %>"
+              src="<%= listing.image ? listing.image : '/images/default.jpg' %>"
               class="card-img-top img-fluid"
               alt="Listing Image"
               style="height: 450px; object-fit: cover"
             />
             <div class="card-body flex-grow-1 d-flex flex-column">
               <div class="text-muted fw-bold"><%= listing.title %></div>
-              <p class="card-text fw-light line-clamp-3"><%= listing.description %></p>
+              <p class="card-text fw-light line-clamp-3">
+                <%= listing.description %>
+              </p>
               <div class="mt-auto text-muted fw-bold">
-                 &#8377;<%= listing.price.toLocaleString("en-IN") %>
-                /night
+                &#8377;<%= (listing.price ?
+                listing.price.toLocaleString("en-IN") : "N/A") %> /night
               </div>
+              <small class="text-secondary">
+                Location: <%= listing.location %>, <%= listing.country %>
+              </small>
             </div>
           </div>
         </a>

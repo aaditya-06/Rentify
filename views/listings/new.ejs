@@ -1,112 +1,120 @@
 <% layout('/Layouts/Boilerplate') %>
 <body>
   <div class="container mt-5 mb-5">
-    <h2 class="text-center mb-4">Add Listing</h2>
+    <h2 class="text-center fw-bold mb-4 text-secondary">Create a New Listing</h2>
 
-    <div class="card shadow-sm p-4">
-      <form
-        method="POST"
-        action="/listings"
-        novalidate
-        class="needs-validation"
-      >
+    <div class="card border-0 shadow-lg p-4 rounded">
+      <form method="POST" action="/listings" novalidate class="needs-validation">
+        <!-- Listing Title -->
         <div class="mb-3">
-          <label for="title" class="form-label fw-bold">Title:</label>
-          <input
-            type="text"
-            id="title"
-            name="listing[title]"
-            class="form-control"
-            required
+          <label for="title" class="form-label fw-bold">Listing Title</label>
+          <input 
+            type="text" 
+            id="title" 
+            name="listing[title]" 
+            class="form-control rounded-pill" 
+            placeholder="Enter a catchy title" 
+            required 
           />
-          <div class="valid-feedback">
-            Looks good!
-          </div>
+          <div class="valid-feedback">Looking great!</div>
+          <div class="invalid-feedback">Title is required.</div>
         </div>
 
+        <!-- Description -->
         <div class="mb-3">
-          <label for="description" class="form-label fw-bold"
-            >Description:</label
-          >
-          <textarea
-            id="description"
-            name="listing[description]"
-            rows="4"
-            class="form-control"
+          <label for="description" class="form-label fw-bold">Description</label>
+          <textarea 
+            id="description" 
+            name="listing[description]" 
+            rows="4" 
+            class="form-control rounded" 
+            placeholder="Provide details about your listing" 
             required
           ></textarea>
-          <div class="valid-feedback">
-            Looks good!
-          </div>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Description cannot be empty.</div>
         </div>
 
+        <!-- Image Upload -->
         <div class="mb-3">
-          <label for="image" class="form-label fw-bold">Upload Image:</label>
-          <input
-            type="text"
-            id="image"
-            name="listing[image]"
-            class="form-control"
-            placeholder="Image URL"
-            required
+          <label for="image" class="form-label fw-bold">Image URL</label>
+          <input 
+            type="text" 
+            id="image" 
+            name="listing[image]" 
+            class="form-control rounded-pill" 
+            placeholder="Paste an image URL" 
+            required 
           />
-          <div class="invalid-feedback">
-            Please provide a valid zip.
-          </div>
+          <div class="invalid-feedback">Please provide a valid image URL.</div>
         </div>
 
         <div class="row">
+          <!-- Price -->
           <div class="col-md-6 mb-3">
-            <label for="price" class="form-label fw-bold">
-              Price (&#8377;):</label
-            >
-            <input
-              id="price"
-              name="listing[price]"
-              class="form-control"
-              step="0.01"
-              required
+            <label for="price" class="form-label fw-bold">Price (&#8377;)</label>
+            <input 
+              type="number" 
+              id="price" 
+              name="listing[price]" 
+              class="form-control rounded-pill" 
+              step="0.01" 
+              placeholder="Set your price" 
+              required 
             />
-            <div class="invalid-feedback">
-              Please provide a valid price.
-            </div>
+            <div class="invalid-feedback">Price must be a valid number.</div>
           </div>
+
+          <!-- Location -->
           <div class="col-md-6 mb-3">
-            <label for="location" class="form-label fw-bold">Location:</label>
-            <input
-              type="text"
-              id="location"
-              name="listing[location]"
-              class="form-control"
-              required
+            <label for="location" class="form-label fw-bold">Location</label>
+            <input 
+              type="text" 
+              id="location" 
+              name="listing[location]" 
+              class="form-control rounded-pill" 
+              placeholder="City or region" 
+              required 
             />
-          </div>
-          <div class="invalid-feedback">
-            Please provide a valid city.
+            <div class="invalid-feedback">Please enter a location.</div>
           </div>
         </div>
 
+        <!-- Country -->
         <div class="mb-3">
-          <label for="country" class="form-label fw-bold">Country:</label>
-          <select
-            id="country"
-            name="listing[country]"
-            class="form-select"
+          <label for="country" class="form-label fw-bold">Country</label>
+          <input 
+            type="text" 
+            id="country" 
+            name="listing[country]" 
+            class="form-control rounded-pill" 
+            placeholder="Enter country name" 
             required
-          >
-            <option value="">Select a country</option>
-            <option value="USA">USA</option>
-            <option value="Canada">Canada</option>
-            <option value="UK">UK</option>
-            <option value="Australia">Australia</option>
-            <option value="India">India</option>
-          </select>
+          />
+          <div class="invalid-feedback">Country is required.</div>
         </div>
 
+        <!-- Submit Button -->
         <div class="text-center">
-          <button type="submit" class="btn btn-danger">Submit</button>
+          <button type="submit" class="btn btn-primary rounded-pill px-4 py-2">
+            <i class="fa-solid fa-check"></i> Publish Listing
+          </button>
         </div>
       </form>
     </div>
   </div>
+
+  <style>
+    .form-control::placeholder {
+      color: #adb5bd;
+      font-style: italic;
+    }
+    .btn-primary {
+      background-color: #252525;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #000000;
+    }
+  </style>
 </body>
