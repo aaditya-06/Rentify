@@ -7,7 +7,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const MongoStore = require("connect-mongo");
 
-if(process.env.NODE_ENV !== "production"){
+if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
@@ -36,7 +36,10 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
 // Set up the MongoDB connection for sessions
-const dbUrl = "mongodb://127.0.0.1:27017/Rentify";
+// const dbUrl = "mongodb://127.0.0.1:27017/Rentify";
+
+const dbUrl = process.env.ATLASDB;
+const secret = process.env.SECRET;
 
 mongoose
   .connect(dbUrl)
@@ -48,19 +51,23 @@ const store = MongoStore.create({
   mongoUrl: dbUrl,
   touchAfter: 24 * 3600, // time period in seconds
   crypto: {
-    secret: "secretcode"
-  }
+    secret: secret,
+  },
+});
+
+store.on("error", (req, res) => {
+  console.log("error in MongoStore", err);
 });
 
 const sessionOption = {
   store,
-  secret: "secretcode",
+  secret: secret,
   resave: false,
   saveUninitialized: false, // false is typically better to comply with best practices
   cookie: {
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-    httpOnly: true
-  }
+    httpOnly: true,
+  },
 };
 
 app.use(session(sessionOption));

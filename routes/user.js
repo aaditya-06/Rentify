@@ -1,24 +1,29 @@
 const express = require("express");
-const User = require("../models/user.js");
-const wrapAsync = require("../utility/wrapAsync.js");
-const passport = require("passport");
-
 const router = express.Router();
+const passport = require("passport");
+const wrapAsync = require("../utility/wrapAsync.js");
+const User = require("../models/user.js");
 
+// GET - Signup form
 router.get("/signup", (req, res) => {
   res.render("./user/signup.ejs");
 });
 
+// POST - Signup logic with auto-login
 router.post(
   "/signup",
-  wrapAsync(async (req, res) => {
+  wrapAsync(async (req, res, next) => {
     try {
-      let { username, email, password } = req.body;
+      const { username, email, password } = req.body;
       const newUser = new User({ username, email });
       const registeredUser = await User.register(newUser, password);
-      console.log(registeredUser);
-      req.flash("success", "Welcome to Rentify");
-      res.redirect("/");
+
+      // Auto-login after registration
+      req.login(registeredUser, (err) => {
+        if (err) return next(err);
+        req.flash("success", "Welcome to Rentify!");
+        res.redirect("/");
+      });
     } catch (err) {
       req.flash("error", err.message);
       res.redirect("/signup");
@@ -26,22 +31,25 @@ router.post(
   })
 );
 
+// GET - Login form
 router.get("/login", (req, res) => {
   res.render("./user/login.ejs");
 });
 
+// POST - Login logic
 router.post(
   "/login",
   passport.authenticate("local", {
     failureRedirect: "/login",
     failureFlash: true,
   }),
-  async (req, res, next) => {
+  wrapAsync(async (req, res) => {
     req.flash("success", "Welcome back!");
     res.redirect("/");
-  }
+  })
 );
 
+// GET - Logout route
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err);
@@ -49,4 +57,5 @@ router.get("/logout", (req, res, next) => {
     res.redirect("/");
   });
 });
+
 module.exports = router;

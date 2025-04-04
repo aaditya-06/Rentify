@@ -15,11 +15,15 @@ const validateReview = (req, res, next) => {
 // Create Review: Adds a new review to a listing
 const createReview = async (req, res, next) => {
   const listing = await Listing.findById(req.params.listingId);
+  const review = new Review(req.body.review);
+
   if (!listing) {
     return next(new ExpressError("Listing not found", 404));
   }
 
   const newReview = new Review(req.body.review);
+  
+  review.user = req.user._id;
   listing.reviews.push(newReview);
   await newReview.save();
   await listing.save();

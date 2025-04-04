@@ -40,10 +40,10 @@ setTimeout(function () {
 }, 3000);
 
 const gstToggle = document.getElementById("switchCheckDefault");
-  const gstNotes = document.querySelectorAll(".gst-note");
+const gstNotes = document.querySelectorAll(".gst-note");
 
-  gstToggle.addEventListener("change", function () {
-    gstNotes.forEach((note) => {
-      note.style.display = this.checked ? "inline" : "none";
-    });
+gstToggle.addEventListener("change", function () {
+  gstNotes.forEach((note) => {
+    note.style.display = this.checked ? "inline" : "none";
   });
+});

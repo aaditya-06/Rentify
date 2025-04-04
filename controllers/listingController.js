@@ -38,7 +38,13 @@ const showListing = async (req, res, next) => {
   const { id } = req.params;
   console.log("Fetching listing with ID:", id); // Debugging
 
-  const listing = await Listing.findById(id).populate("reviews");
+  const listing = await Listing.findById(id).populate({
+    path: 'reviews',
+    populate: {
+      path: 'user',
+      model: 'User'
+    }
+  }).populate('owner');
 
   if (!listing) {
     req.flash("error", "Listing not found");
