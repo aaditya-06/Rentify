@@ -14,7 +14,7 @@
     <!-- Listing Card -->
     <div class="card border-0 rounded overflow-hidden mb-4">
       <img
-        src="<%= listing.image %>"
+        src="<%= listing.image.url %>"
         class="card-img-top"
         alt="Listing Image"
         style="height: 500px; object-fit: cover; border-radius: 20px"
@@ -169,19 +169,27 @@
     <!-- Action Buttons -->
     <div class="d-flex justify-content-end align-items-center mb-4">
       <div class="d-flex gap-2">
-        <a
-          href="/listings/<%= listing._id %>/edit"
-          class="btn btn-primary btn-sm d-inline-flex align-items-center"
-        >
-          <i class="fa-solid fa-edit me-1"></i> Edit Listing
-        </a>
         <form
           method="POST"
           action="/listings/<%= listing._id %>?_method=DELETE"
         >
-          <button type="submit" class="btn btn-danger btn-sm">
-            <i class="fa-regular fa-trash-can"></i>
-          </button>
+          <% if (currentUser && listing.owner &&
+          listing.owner.equals(currentUser._id)) { %>
+          <a
+            href="/listings/<%= listing._id %>/edit"
+            class="btn btn-primary btn-sm d-inline-flex align-items-center"
+          >
+            <i class="fa-solid fa-edit me-1"></i> Edit Listing
+          </a>
+
+          <form
+            action="/listings/<%= listing._id %>?_method=DELETE"
+            method="POST"
+            class="d-inline"
+          >
+            <button class="btn btn-danger"></button>
+          </form>
+          <% } %>
         </form>
       </div>
     </div>

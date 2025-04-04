@@ -1,58 +1,53 @@
 const sampleListings = [
   {
-    title: "Rustic Log Cabin in Montana",
+    title: "Modern Hillside Retreat in Portugal",
     description:
-      "Unplug and unwind in this cozy log cabin surrounded by the natural beauty of Montana.",
+      "Experience serenity in this sleek, glass-walled haven nestled on a hillside with panoramic views of the Portuguese countryside.",
     image:
-      "https://images.unsplash.com/photo-1586375300773-8384e3e4916f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGxvZGdlfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
-
-    price: 1100,
-    location: "Montana",
-    country: "United States",
+      "https://a0.muscache.com/im/pictures/miso/Hosting-983628068535189241/original/6fb13419-22cb-4378-bacc-22fa484869e2.jpeg?im_w=1200",
+    price: 890,
+    location: "Douro Valley",
+    country: "Portugal",
   },
   {
-    title: "Beachfront Villa in Greece",
+    title: "Tropical Bamboo Bungalow in Bali",
     description:
-      "Enjoy the crystal-clear waters of the Mediterranean in this beautiful beachfront villa on a Greek island.",
+      "Immerse yourself in island life at this eco-friendly bamboo bungalow surrounded by lush greenery and swaying palms.",
     image:
-      "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dmlsbGF8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
-
-    price: 2500,
-    location: "Mykonos",
+      "https://a0.muscache.com/im/pictures/miso/Hosting-605371928419351152/original/c8f48e8b-091d-47ea-85ac-b31bc2604bbb.jpeg?im_w=720",
+    price: 650,
+    location: "Ubud",
+    country: "Indonesia",
+  },
+  {
+    title: "Secluded Cliffside Villa in Greece",
+    description:
+      "Unwind in a private villa perched above the sea, featuring a stunning infinity pool and breathtaking sunset views.",
+    image:
+      "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTI4MzIyMDE3NDkyODAyNzYzOQ==/original/faa95fbb-4efa-42a2-9446-03febcedb923.jpeg?im_w=1200",
+    price: 1400,
+    location: "Santorini",
     country: "Greece",
   },
   {
-    title: "Eco-Friendly Treehouse Retreat",
+    title: "Minimalist Escape in the Tokyo Suburbs",
     description:
-      "Stay in an eco-friendly treehouse nestled in the forest. It's the perfect escape for nature lovers.",
+      "A peaceful retreat combining traditional Japanese design with modern simplicity—perfect for recharging near the city.",
     image:
-      "https://images.unsplash.com/photo-1488462237308-ecaa28b729d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8c2t5JTIwdmFjYXRpb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
-
-    price: 7500,
-    location: "Costa Rica",
-    country: "Costa Rica",
-  },
-  {
-    title: "Historic Cottage in Charleston",
-    description:
-      "Experience the charm of historic Charleston in this beautifully restored cottage with a private garden.",
-    image:
-      "https://images.unsplash.com/photo-1587381420270-3e1a5b9e6904?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGxvZGdlfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
-
-    price: 1600,
-    location: "Charleston",
-    country: "United States",
-  },
-  {
-    title: "Modern Apartment in Tokyo",
-    description:
-      "Explore the vibrant city of Tokyo from this modern and centrally located apartment.",
-    image:
-      "https://images.unsplash.com/photo-1480796927426-f609979314bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHRva3lvfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
-
-    price: 2000,
-    location: "Tokyo",
+      "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6Njg2MTEwNTk0OTYyNjQwOTMz/original/3ff07942-9735-4e89-8732-408a3f18ec95.jpeg?im_w=1200",
+    price: 720,
+    location: "Machida",
     country: "Japan",
+  },
+  {
+    title: "Artistic Loft in Mexico City",
+    description:
+      "Stay in the heart of culture in this colorful artist's loft with hand-painted murals and urban vibes.",
+    image:
+      "https://a0.muscache.com/im/pictures/hosting/Hosting-1042485789401273652/original/b2c9143a-3a26-4c77-b3a3-a2ba6b761304.jpeg?im_w=1200",
+    price: 580,
+    location: "Coyoacán",
+    country: "Mexico",
   },
 ];
 

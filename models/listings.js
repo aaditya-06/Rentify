@@ -7,13 +7,15 @@ const listingSchema = new Schema(
     title: { type: String, required: true },
     description: String,
     image: {
-      type: String,
-      default:
-        "https://4kwallpapers.com/images/wallpapers/tulips-field-3840x2160-21582.jpg",
-      set: (v) =>
-        v === ""
-          ? "https://4kwallpapers.com/images/wallpapers/tulips-field-3840x2160-21582.jpg"
-          : v,
+      url: {
+        type: String,
+        required: true,
+        default:
+          "https://4kwallpapers.com/images/wallpapers/tulips-field-3840x2160-21582.jpg",
+      },
+      filename: {
+        type: String,
+      },
     },
     price: Number,
     location: String,
@@ -24,10 +26,16 @@ const listingSchema = new Schema(
         ref: "Review",
       },
     ],
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
+// Cascade delete associated reviews when a listing is deleted
 listingSchema.pre("findOneAndDelete", async function (next) {
   const listing = await this.model.findOne(this.getQuery());
   if (listing && listing.reviews.length > 0) {
