@@ -1,0 +1,32 @@
+<!-- Loader Div -->
+<div
+  id="loader"
+  class="position-fixed top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark text-light text-center p-4"
+  style="z-index: 9999"
+>
+  <div class="spinner-border text-light"></div>
+  <h3
+    class="quote-text"
+    style="font-style: italic; font-weight: 400; max-width: 600px"
+  >
+    “Every sunset brings the promise of a new dawn.”
+  </h3>
+</div>
+
+<script>
+  window.addEventListener("load", () => {
+    const loader = document.getElementById("loader");
+
+    setTimeout(() => {
+      loader.classList.add("hidden");
+    }, 3000);
+  });
+</script>
+
+<style>
+  .hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease;
+  }
+</style>

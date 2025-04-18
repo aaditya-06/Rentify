@@ -14,6 +14,9 @@ const validateListings = (req, res, next) => {
 
 // Show form to create a new listing
 const renderNewListingForm = (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
   res.render("listings/new");
 };
 
@@ -26,7 +29,7 @@ const createListing = async (req, res, next) => {
       url: req.file.path,
       filename: req.file.filename,
     };
-  } 
+  }
   await newListing.save();
 
   req.flash("success", "Listing created");
@@ -38,13 +41,15 @@ const showListing = async (req, res, next) => {
   const { id } = req.params;
   console.log("Fetching listing with ID:", id); // Debugging
 
-  const listing = await Listing.findById(id).populate({
-    path: 'reviews',
-    populate: {
-      path: 'user',
-      model: 'User'
-    }
-  }).populate('owner');
+  const listing = await Listing.findById(id)
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "user",
+        model: "User",
+      },
+    })
+    .populate("owner");
 
   if (!listing) {
     req.flash("error", "Listing not found");
